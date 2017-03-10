@@ -15,7 +15,7 @@ public class Glumac {
 
     public static final String FIELD_NAME_ID     = "id";
     public static final String FIELD_NAME_IME   = "ime";
-    public static final String FIELD_NAME_PREZIME   = "prezime";
+
     public static final String FIELD_NAME_BIOGRAFIJA   = "biografija";
     public static final String FIELD_NAME_OCENA   = "ocena";
     public static final String FIELD_NAME_DATUMRODJENJA   = "datumrodjenja";
@@ -27,8 +27,6 @@ public class Glumac {
     @DatabaseField(columnName = FIELD_NAME_IME)
     private String mIme;
 
-    @DatabaseField(columnName = FIELD_NAME_PREZIME)
-    private String mPrezime;
 
     @DatabaseField(columnName = FIELD_NAME_BIOGRAFIJA)
     private String mBiografija;
@@ -44,6 +42,10 @@ public class Glumac {
     public Glumac() {
     }
 
+    public int getmId() {
+        return mId;
+    }
+
     public String getmIme() {
         return mIme;
     }
@@ -52,13 +54,6 @@ public class Glumac {
         this.mIme = mIme;
     }
 
-    public String getmPrezime() {
-        return mPrezime;
-    }
-
-    public void setmPrezime(String mPrezime) {
-        this.mPrezime = mPrezime;
-    }
 
     public String getmBiografija() {
         return mBiografija;
@@ -94,6 +89,6 @@ public class Glumac {
 
     @Override
     public String toString() {
-        return  mIme+ " " + mPrezime;
+        return  mIme;
     }
 }

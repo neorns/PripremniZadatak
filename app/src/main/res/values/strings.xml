@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">PripremniZadatak</string>
     <string name="main_activity_title">Glumci</string>
+    <string name="main_add">Add</string>
+    <string name="detail_edit">Edit</string>
+    <string name="detail_add">Add</string>
+    <string name="detail_delete">Delete</string>
 </resources>

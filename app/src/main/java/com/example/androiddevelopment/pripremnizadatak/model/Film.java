@@ -30,6 +30,25 @@ public class Film {
     public Film() {
     }
 
+    public int getmId() {
+        return mId;
+    }
 
 
+
+    public String getmNaziv() {
+        return mNaziv;
+    }
+
+    public void setmNaziv(String mNaziv) {
+        this.mNaziv = mNaziv;
+    }
+
+    public Glumac getGlumac() {
+        return glumac;
+    }
+
+    public void setGlumac(Glumac glumac) {
+        this.glumac = glumac;
+    }
 }

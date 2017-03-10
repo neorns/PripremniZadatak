@@ -17,7 +17,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:title="Toolbar naslov2"
+            android:title="@string/app_name"
             android:background="?attr/colorPrimary"
 
 
@@ -25,5 +25,12 @@
         </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>
+
+    <ListView
+        android:id="@+id/listaGlumci"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        />
 
 </LinearLayout>
