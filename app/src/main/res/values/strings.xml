@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">PripremniZadatak</string>
+    <string name="main_activity_title">Glumci</string>
 </resources>
