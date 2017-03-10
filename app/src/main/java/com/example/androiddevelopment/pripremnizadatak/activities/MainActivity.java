@@ -167,7 +167,6 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_main_add:
-                //Toast.makeText(this, "Action " + getString(R.string.fragment_master_action_create) + " executed.", Toast.LENGTH_SHORT).show();
                 Toast.makeText(this, "Action Dodaj executed.", Toast.LENGTH_SHORT).show();
                 try {
                     addItem();

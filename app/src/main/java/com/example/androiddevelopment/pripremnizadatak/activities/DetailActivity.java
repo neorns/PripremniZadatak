@@ -31,6 +31,7 @@ import static android.R.attr.name;
 
 public class DetailActivity  extends AppCompatActivity {
     private DatabaseHelper databaseHelper;
+    private Glumac glumac;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,8 +47,8 @@ public class DetailActivity  extends AppCompatActivity {
             //actionBar.setHomeButtonEnabled(true);
             actionBar.show();
         }
-        try{
-            Glumac glumac = getDatabaseHelper().getGlumacDao().queryForId(getIntent().getIntExtra("position",-1));
+        try {
+            glumac = getDatabaseHelper().getGlumacDao().queryForId(getIntent().getIntExtra("position",-1));
 
 
             TextView ime = (TextView) this.findViewById(R.id.tv_ime);
@@ -66,11 +67,15 @@ public class DetailActivity  extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_detail_add:
-
+                //dodavanje filma
                 Toast.makeText(this, "Action Add executed.", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.action_detail_delete:
-
+                try {
+                    getDatabaseHelper().getGlumacDao().deleteById(glumac.getmId());
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
                 Toast.makeText(this, "Action Delete executed.", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.action_detail_edit:
