@@ -23,6 +23,7 @@
         <activity
             android:name=".activities.DetailActivity"
             android:icon="@mipmap/ic_launcher"
+            android:label="@string/detail_activity_title"
             android:theme="@style/AppTheme.NoActionBar"
             >
 
@@ -30,7 +31,7 @@
 
         <activity
             android:name=".preferences.Podesavanja"
-            android:label="@string/activity_settings_name"
+            android:label="@string/settings_activity_title"
             android:parentActivityName=".activities.MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
     </application>
