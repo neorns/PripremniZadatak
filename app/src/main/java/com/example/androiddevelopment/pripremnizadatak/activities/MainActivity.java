@@ -2,10 +2,18 @@ package com.example.androiddevelopment.pripremnizadatak.activities;
 
 import android.app.Dialog;
 import android.app.FragmentTransaction;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,8 +29,10 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.androiddevelopment.pripremnizadatak.R;
+import com.example.androiddevelopment.pripremnizadatak.dialog.AboutDialog;
 import com.example.androiddevelopment.pripremnizadatak.model.DatabaseHelper;
 import com.example.androiddevelopment.pripremnizadatak.model.Glumac;
+import com.example.androiddevelopment.pripremnizadatak.preferences.Podesavanja;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 
 import java.sql.SQLException;
@@ -35,6 +45,12 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     private DatabaseHelper databaseHelper;
 
+    private SharedPreferences prefs;
+
+    public static String ACTOR_KEY = "ACTOR_KEY";
+    public static String NOTIF_TOAST = "notif_toast";
+    public static String NOTIF_STATUS = "notif_statis";
+
     // Container Activity must implement this interface
     public interface OnGlumacSelectedListener {
         void onGlumacSelected(int id);
@@ -42,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
 
     OnGlumacSelectedListener listener;
     ListAdapter adapter;
+
     public DatabaseHelper getDatabaseHelper() {
         if (databaseHelper == null) {
             databaseHelper = OpenHelperManager.getHelper(this, DatabaseHelper.class);
@@ -65,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
             actionBar.show();
         }
 
+        prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         try {
             List<Glumac> list = getDatabaseHelper().getGlumacDao().queryForAll();
@@ -101,10 +119,7 @@ public class MainActivity extends AppCompatActivity {
         final Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.dialog_glumac);
 
-
-
         final EditText glumacIme = (EditText) dialog.findViewById(R.id.glumac_ime);
-
 
         Button ok = (Button) dialog.findViewById(R.id.ok);
         ok.setOnClickListener(new View.OnClickListener() {
@@ -112,22 +127,28 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String ime = glumacIme.getText().toString();
 
-
                     Glumac glumac = new Glumac();
                     glumac.setmIme(ime);
-
 
                     try {
                         getDatabaseHelper().getGlumacDao().create(glumac);
                         refresh();
-                        Toast.makeText(MainActivity.this, "Product inserted", Toast.LENGTH_SHORT).show();
-                        dialog.dismiss();
 
-                        //reset();
+                        boolean toast = prefs.getBoolean(NOTIF_TOAST, false);
+                        boolean status = prefs.getBoolean(NOTIF_STATUS, false);
+
+                        if (toast){
+                            Toast.makeText(MainActivity.this, "Dodat novi glumac", Toast.LENGTH_SHORT).show();
+                        }
+
+                        if (status){
+                            showStatusMesage("Added new actor");
+                        }
 
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
+                dialog.dismiss();
 
             }
         });
@@ -163,6 +184,19 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+    private void showStatusMesage(String message){
+        NotificationManager mNotificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
+        mBuilder.setSmallIcon(R.drawable.ic_notifikacija);
+        mBuilder.setContentTitle("Pripremni test");
+        mBuilder.setContentText(message);
+
+        Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.ic_action_add);
+
+        mBuilder.setLargeIcon(bm);
+        // notificationID allows you to update the notification later on.
+        mNotificationManager.notify(1, mBuilder.build());
+    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -173,6 +207,14 @@ public class MainActivity extends AppCompatActivity {
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
+                break;
+            case R.id.action_about:
+
+                AlertDialog alertDialog = new AboutDialog(this).prepareDialog();
+                alertDialog.show();
+                break;
+            case R.id.action_preferences:
+                startActivity(new Intent(MainActivity.this, Podesavanja.class));
                 break;
         }
 
@@ -185,6 +227,22 @@ public class MainActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
 
+        refresh();
+    }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        // nakon rada sa bazo podataka potrebno je obavezno
+        //osloboditi resurse!
+        if (databaseHelper != null) {
+            OpenHelperManager.releaseHelper();
+            databaseHelper = null;
+        }
+    }
 }

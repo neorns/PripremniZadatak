@@ -99,4 +99,16 @@ public class DetailActivity  extends AppCompatActivity {
         }
         return databaseHelper;
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        // nakon rada sa bazo podataka potrebno je obavezno
+        //osloboditi resurse!
+        if (databaseHelper != null) {
+            OpenHelperManager.releaseHelper();
+            databaseHelper = null;
+        }
+    }
 }

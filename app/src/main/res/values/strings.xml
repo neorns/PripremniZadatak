@@ -5,4 +5,11 @@
     <string name="detail_edit">Edit</string>
     <string name="detail_add">Add</string>
     <string name="detail_delete">Delete</string>
+
+    <string name="activity_settings_name">Settings Activity</string>
+
+    <string name="dialog_about_title">About</string>
+    <string name="dialog_about_message">About dialog</string>
+    <string name="dialog_about_yes">OK</string>
+    <string name="dialog_about_no">Cancel</string>
 </resources>
