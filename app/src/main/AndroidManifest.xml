@@ -9,7 +9,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".activities.MainActivity"
+            android:name=".activities.MainActivity2"
             android:icon="@mipmap/ic_launcher"
             android:label="@string/main_activity_title"
             android:theme="@style/AppTheme.NoActionBar"
